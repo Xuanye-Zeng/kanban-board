@@ -25,7 +25,7 @@ Full-stack Kanban board with drag-and-drop. Took design cues from Linear and Not
 - **Row Level Security** — Each user only sees their own data
 - **Go Backend** — RESTful API with Chi router, forwarding Supabase JWT for RLS
 
-### 🏆 Advanced Features (All 7 Implemented)
+### 🏆 Advanced Features
 
 | # | Feature | Description |
 |---|---------|-------------|
