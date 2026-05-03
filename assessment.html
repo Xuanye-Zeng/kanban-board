@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanban Task Board — Assessment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 48px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #e63946;
+    border-bottom: 2px solid #e63946;
+    padding-bottom: 4px;
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .author {
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .links {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 8px;
+  }
+
+  .links p {
+    margin: 4px 0;
+  }
+
+  .links strong { color: #333; }
+  .links a { color: #2563eb; text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+
+  p { margin-bottom: 8px; }
+
+  ul, ol {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  li { margin-bottom: 4px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 12.5px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    text-align: left;
+  }
+
+  th {
+    background: #f1f3f5;
+    font-weight: 600;
+  }
+
+  code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11.5px;
+    background: #f4f4f5;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 14px 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .arch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 14px;
+  }
+
+  .arch-box {
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 160px;
+  }
+
+  .arch-box .arch-title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+  }
+
+  .arch-box .arch-detail {
+    font-size: 11.5px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .arch-arrow {
+    font-size: 22px;
+    color: #e63946;
+    padding: 0 10px;
+    font-weight: 700;
+  }
+
+  .arch-note {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+    font-size: 11.5px;
+    color: #666;
+  }
+
+  .arch-note span {
+    background: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    margin-right: 4px;
+  }
+
+  .badge-green { background: #22c55e; }
+  .badge-blue { background: #3b82f6; }
+
+  .feature-row td:first-child { font-weight: 600; white-space: nowrap; }
+
+  @media print {
+    body { padding: 20px 30px; }
+    h2 { page-break-after: avoid; }
+    pre, table, .links { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Kanban Task Board</h1>
+<p class="subtitle">Next Play Games — Software Development Internship Assessment</p>
+<p class="author">Xuanye Zeng</p>
+
+<div class="links">
+  <p><strong>Live App:</strong> <a href="https://kanban-board-sigma-dun.vercel.app">https://kanban-board-sigma-dun.vercel.app</a></p>
+  <p><strong>GitHub:</strong> <a href="https://github.com/Xuanye-Zeng/kanban-board">https://github.com/Xuanye-Zeng/kanban-board</a></p>
+  <p><strong>Backend API:</strong> <a href="https://kanban-board-api-727300705081.us-west1.run.app">https://kanban-board-api-727300705081.us-west1.run.app</a> (Google Cloud Run, free tier)</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>1. Solution Overview</h2>
+
+<p>A full-stack Kanban board inspired by Linear and Notion. Users land on the app, get an anonymous guest session automatically, and can immediately create tasks, drag them across four columns, assign team members, label them, comment, and track activity — all persisted in Supabase with strict row-level security.</p>
+
+<h3>Architecture</h3>
+<div class="arch">
+  <div class="arch-box">
+    <div class="arch-title">Frontend</div>
+    <div class="arch-detail">React 19 + TypeScript<br>Tailwind CSS 4<br>@dnd-kit<br>Vercel</div>
+  </div>
+  <div class="arch-arrow">&#10132;</div>
+  <div class="arch-box">
+    <div class="arch-title">Go Backend</div>
+    <div class="arch-detail">Chi Router<br>REST API<br>JWT Auth Middleware<br>Render</div>
+  </div>
+  <div class="arch-arrow">&#10132;</div>
+  <div class="arch-box">
+    <div class="arch-title">Supabase</div>
+    <div class="arch-detail">PostgreSQL<br>Auth + RLS<br>PostgREST API<br>Free Tier</div>
+  </div>
+</div>
+<div class="arch-note">
+  <span>Supabase Auth (Anonymous Sign-In)</span>
+  <span>JWT forwarded &rarr; RLS enforced per user</span>
+</div>
+
+<h3>Tech Stack</h3>
+<table>
+  <tr><th>Layer</th><th>Technology</th></tr>
+  <tr><td>Frontend</td><td>React 19, TypeScript, Vite, Tailwind CSS v4</td></tr>
+  <tr><td>Drag &amp; Drop</td><td>@dnd-kit/core + @dnd-kit/sortable</td></tr>
+  <tr><td>Icons</td><td>Lucide React</td></tr>
+  <tr><td>Backend</td><td>Go, Chi Router, go-chi/cors</td></tr>
+  <tr><td>Database</td><td>Supabase (PostgreSQL)</td></tr>
+  <tr><td>Auth</td><td>Supabase Anonymous Sign-In</td></tr>
+  <tr><td>Hosting</td><td>Vercel (frontend) + Google Cloud Run (backend)</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>2. Design Decisions</h2>
+
+<table>
+  <tr><th>Decision</th><th>Rationale</th></tr>
+  <tr><td>Fractional indexing for task position</td><td>Avoids renumbering all tasks on every drag — O(1) reorder operation</td></tr>
+  <tr><td>Client-side filtering</td><td>Single-user data volume is small; simpler and faster than complex SQL joins</td></tr>
+  <tr><td>Optimistic updates</td><td>UI feels instant; reverts on API failure</td></tr>
+  <tr><td>Activity log in application layer</td><td>More flexible than DB triggers; easier to format human-readable messages</td></tr>
+  <tr><td>@dnd-kit over react-beautiful-dnd</td><td>Modern, actively maintained, better touch/keyboard support</td></tr>
+  <tr><td>Go backend (not direct Supabase calls)</td><td>Adds a security layer; keeps anon key out of network tab; demonstrates full-stack skill</td></tr>
+  <tr><td>Anonymous sign-in</td><td>Zero-friction onboarding — no signup form, instant access</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>3. Advanced Features</h2>
+
+<table class="feature-row">
+  <tr><th>#</th><th>Feature</th><th>How It Works</th></tr>
+  <tr>
+    <td>1</td>
+    <td>Team Members &amp; Assignees</td>
+    <td>Users create members (name + color). Members appear as colored-initial avatars. Tasks support multiple assignees via a junction table. Avatar group shown on each card (up to 3 + overflow badge).</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Task Comments</td>
+    <td>Click a task to open the detail panel. Write comments in a text input. Comments display chronologically with relative timestamps ("2 hours ago"). Stored in a dedicated <code>comments</code> table.</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Task Activity Log</td>
+    <td>Every status change, edit, assignment, or label update is recorded. The detail panel shows a timeline: e.g. "Moved from To Do → In Progress · 2 hours ago". Stored in <code>activity_log</code> with JSONB details.</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Labels / Tags</td>
+    <td>Create custom labels with name + color. Assign multiple labels to a task. Labels appear as colored chips on cards. Board can be filtered by label.</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Due Date Indicators</td>
+    <td>Color-coded badges on cards: <span style="color:#e63946;font-weight:600;">red</span> = overdue, <span style="color:#d97706;font-weight:600;">yellow</span> = due within 3 days, <span style="color:#16a34a;font-weight:600;">green</span> = completed. Uses relative date formatting ("Today", "Tomorrow", "Mar 29").</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>Search &amp; Filtering</td>
+    <td>Search bar filters by title/description (300ms debounce). Dropdown filters for priority, assignee, and label. Clear button resets all. All filtering is client-side for instant response.</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>Board Summary / Stats</td>
+    <td>Header displays live counters: total tasks, active (in-progress), completed (done), and overdue. Each stat has a distinct icon and color.</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>4. Database Schema</h2>
+
+<pre><code>-- Tasks
+create table tasks (
+  id bigint generated always as identity primary key,
+  title text not null,
+  description text default '',
+  status text not null default 'todo'
+    check (status in ('todo', 'in_progress', 'in_review', 'done')),
+  priority text not null default 'medium'
+    check (priority in ('urgent', 'high', 'medium', 'low')),
+  due_date date,
+  position real not null default 0,
+  user_id uuid not null default auth.uid() references auth.users(id),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- Team Members
+create table team_members (
+  id bigint generated always as identity primary key,
+  name text not null,
+  color text not null default '#6366f1',
+  user_id uuid not null default auth.uid() references auth.users(id),
+  created_at timestamptz not null default now()
+);
+
+-- Task Assignees (many-to-many junction)
+create table task_assignees (
+  task_id bigint not null references tasks(id) on delete cascade,
+  team_member_id bigint not null references team_members(id) on delete cascade,
+  user_id uuid not null default auth.uid() references auth.users(id),
+  primary key (task_id, team_member_id)
+);
+
+-- Labels
+create table labels (
+  id bigint generated always as identity primary key,
+  name text not null,
+  color text not null default '#8b5cf6',
+  user_id uuid not null default auth.uid() references auth.users(id),
+  created_at timestamptz not null default now()
+);
+
+-- Task Labels (many-to-many junction)
+create table task_labels (
+  task_id bigint not null references tasks(id) on delete cascade,
+  label_id bigint not null references labels(id) on delete cascade,
+  user_id uuid not null default auth.uid() references auth.users(id),
+  primary key (task_id, label_id)
+);
+
+-- Comments
+create table comments (
+  id bigint generated always as identity primary key,
+  task_id bigint not null references tasks(id) on delete cascade,
+  content text not null,
+  user_id uuid not null default auth.uid() references auth.users(id),
+  created_at timestamptz not null default now()
+);
+
+-- Activity Log
+create table activity_log (
+  id bigint generated always as identity primary key,
+  task_id bigint not null references tasks(id) on delete cascade,
+  action text not null,
+  details jsonb default '{}',
+  user_id uuid not null default auth.uid() references auth.users(id),
+  created_at timestamptz not null default now()
+);
+
+-- Indexes
+create index idx_tasks_user_status on tasks(user_id, status);
+create index idx_comments_task on comments(task_id, created_at);
+create index idx_activity_task on activity_log(task_id, created_at);
+
+-- Auto-update timestamp trigger
+create or replace function update_updated_at()
+returns trigger as $$
+begin new.updated_at = now(); return new; end;
+$$ language plpgsql;
+
+create trigger tasks_updated_at before update on tasks
+  for each row execute function update_updated_at();
+
+-- Row Level Security (all 7 tables)
+alter table tasks enable row level security;
+alter table team_members enable row level security;
+alter table task_assignees enable row level security;
+alter table labels enable row level security;
+alter table task_labels enable row level security;
+alter table comments enable row level security;
+alter table activity_log enable row level security;
+
+-- RLS Policies: each user can only access their own data
+create policy "own_data" on tasks for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "own_data" on team_members for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "own_data" on task_assignees for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "own_data" on labels for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "own_data" on task_labels for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "own_data" on comments for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "own_data" on activity_log for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);</code></pre>
+
+<!-- ============================================================ -->
+<h2>5. Local Setup Instructions</h2>
+
+<h3>Prerequisites</h3>
+<ul>
+  <li>Node.js 18+</li>
+  <li>Go 1.21+</li>
+  <li>A <a href="https://supabase.com">Supabase</a> account (free tier)</li>
+</ul>
+
+<h3>Steps</h3>
+<ol>
+  <li><strong>Clone the repo</strong>
+    <pre><code>git clone https://github.com/Xuanye-Zeng/kanban-board.git
+cd kanban-board</code></pre>
+  </li>
+  <li><strong>Set up Supabase</strong>
+    <ul>
+      <li>Create a new project at supabase.com</li>
+      <li>Run the full SQL schema above in the SQL Editor</li>
+      <li>Enable Anonymous Sign-In: Authentication → Providers → Anonymous Sign-In → Enable</li>
+      <li>Copy your Project URL and anon key from Settings → API</li>
+    </ul>
+  </li>
+  <li><strong>Configure environment variables</strong>
+    <p>Frontend — create <code>.env.local</code> in root:</p>
+    <pre><code>VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_API_URL=http://localhost:8080</code></pre>
+    <p>Backend — create <code>.env</code> in <code>backend/</code>:</p>
+    <pre><code>SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+FRONTEND_URL=http://localhost:5173
+PORT=8080</code></pre>
+  </li>
+  <li><strong>Install &amp; run</strong>
+    <pre><code># Frontend
+npm install
+npm run dev
+
+# Backend (in another terminal)
+cd backend
+go run main.go</code></pre>
+    <p>Open <strong>http://localhost:5173</strong></p>
+  </li>
+</ol>
+
+<!-- ============================================================ -->
+<h2>6. Tradeoffs &amp; Future Improvements</h2>
+
+<h3>Tradeoffs</h3>
+<ul>
+  <li><strong>No real-time sync</strong> — The board refreshes on user actions (optimistic updates) rather than using Supabase Realtime subscriptions. For a single-user anonymous session this is sufficient, but multi-device sync would need Realtime.</li>
+  <li><strong>Client-side filtering</strong> — All search/filter logic runs in the browser. This is fast for single-user data volumes but wouldn't scale to thousands of tasks without server-side pagination.</li>
+  <li><strong>Cold starts</strong> — Google Cloud Run scales to zero after inactivity. First request may take ~2–3 seconds to spin up. Setting a minimum instance count would eliminate this at a small cost.</li>
+  <li><strong>Anonymous sessions are ephemeral</strong> — If the user clears browser data, they lose access to their tasks. A real app would offer email/OAuth login to persist identity.</li>
+</ul>
+
+<h3>What I'd Improve With More Time</h3>
+<ul>
+  <li>Real-time sync via Supabase Realtime subscriptions</li>
+  <li>Task reordering within the same column (drag to reposition vertically)</li>
+  <li>File attachments on tasks</li>
+  <li>Dark mode toggle</li>
+  <li>Keyboard shortcuts (N for new task, arrow keys to navigate)</li>
+  <li>Mobile-optimized responsive layout</li>
+  <li>End-to-end tests with Playwright</li>
+</ul>
+
+</body>
+</html>
